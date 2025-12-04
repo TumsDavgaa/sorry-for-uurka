@@ -23,10 +23,12 @@
     }
     #heart {
         position: absolute;
-        width: 75px;
+        width: 60px;
+        height: 60px;
         cursor: pointer;
         user-select: none;
         animation: pulse 0.8s infinite alternate ease-in-out;
+        z-index: 10;
     }
     @keyframes pulse {
         0% {transform: scale(1);}
@@ -55,20 +57,24 @@
     const heart = document.getElementById('heart');
     const forgive = document.getElementById('forgive');
 
+    // Move heart randomly on screen
     function moveHeart() {
-        heart.style.left = Math.random() * (window.innerWidth - 80) + 'px';
-        heart.style.top = Math.random() * (window.innerHeight - 120) + 'px';
+        heart.style.left = Math.random() * (window.innerWidth - 60) + 'px';
+        heart.style.top = Math.random() * (window.innerHeight - 60) + 'px';
     }
 
+    // Click event
     heart.addEventListener('click', () => {
         heart.style.display = "none";
         forgive.style.display = "block";
         confetti();
     });
 
-    setInterval(moveHeart, 800);
+    // Move heart every 1.2 seconds (easy to click)
+    setInterval(moveHeart, 1200);
     moveHeart();
 
+    // Confetti effect
     function confetti() {
         for(let i=0; i<100; i++){
             let conf = document.createElement("div");
