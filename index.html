@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<title>Ууркадаа 💗</title>
+<style>
+    body {
+        background: #ffedf5;
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+        margin: 0;
+        overflow: hidden;
+    }
+    h1 {
+        color: #d4006e;
+        margin-top: 40px;
+        font-size: 34px;
+    }
+    #message {
+        font-size: 21px;
+        color: #a30053;
+        margin-top: 5px;
+    }
+    #heart {
+        position: absolute;
+        width: 75px;
+        cursor: pointer;
+        user-select: none;
+        animation: pulse 0.8s infinite alternate ease-in-out;
+    }
+    @keyframes pulse {
+        0% {transform: scale(1);}
+        100% {transform: scale(1.2);}
+    }
+    #forgive {
+        display: none;
+        margin-top: 60px;
+        font-size: 26px;
+        color: #d4006e;
+        animation: pop 0.6s ease forwards;
+    }
+    @keyframes pop {
+        0% {transform: scale(0.2); opacity: 0;}
+        100% {transform: scale(1); opacity: 1;}
+    }
+</style>
+</head>
+<body>
+    <h1>Ууркаа ❤️</h1>
+    <div id="message">Миний зүрхийг бариарай 🥺💗</div>
+    <img id="heart" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Heart_icon_red.svg/1024px-Heart_icon_red.svg.png">
+    <div id="forgive">Хөөх! Миний зүрхийг барьчихлаа! 💞<br>Уучлаарай Ууркаа, би чамд хайртай!<br><br>- Түмс Давгаа ❤️</div>
+
+<script>
+    const heart = document.getElementById('heart');
+    const forgive = document.getElementById('forgive');
+
+    function moveHeart() {
+        heart.style.left = Math.random() * (window.innerWidth - 80) + 'px';
+        heart.style.top = Math.random() * (window.innerHeight - 120) + 'px';
+    }
+
+    heart.addEventListener('click', () => {
+        heart.style.display = "none";
+        forgive.style.display = "block";
+        confetti();
+    });
+
+    setInterval(moveHeart, 800);
+    moveHeart();
+
+    function confetti() {
+        for(let i=0; i<100; i++){
+            let conf = document.createElement("div");
+            conf.style.position = "fixed";
+            conf.style.width = "6px";
+            conf.style.height = "6px";
+            conf.style.background = "#" + Math.floor(Math.random()*16777215).toString(16);
+            conf.style.top = (Math.random()*100)+"%";
+            conf.style.left = (Math.random()*100)+"%";
+            conf.style.opacity = Math.random();
+            conf.style.animation = "fall 2.8s linear forwards";
+            document.body.appendChild(conf);
+        }
+    }
+</script>
+
+</body>
+</html>
