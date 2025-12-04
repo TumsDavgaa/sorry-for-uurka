@@ -1,94 +1,107 @@
 <!DOCTYPE html>
-<html lang="mn">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ууркадаа 💗</title>
+<title>Hold My Heart Uurka ❤️</title>
 <style>
-    body {
-        background: #ffedf5;
-        font-family: 'Arial', sans-serif;
-        text-align: center;
-        margin: 0;
-        overflow: hidden;
-    }
-    h1 {
-        color: #d4006e;
-        margin-top: 40px;
-        font-size: 34px;
-    }
-    #message {
-        font-size: 21px;
-        color: #a30053;
-        margin-top: 5px;
-    }
-    #heart {
-        position: absolute;
-        width: 60px;
-        height: 60px;
-        cursor: pointer;
-        user-select: none;
-        animation: pulse 0.8s infinite alternate ease-in-out;
-        z-index: 10;
-    }
-    @keyframes pulse {
-        0% {transform: scale(1);}
-        100% {transform: scale(1.2);}
-    }
-    #forgive {
-        display: none;
-        margin-top: 60px;
-        font-size: 26px;
-        color: #d4006e;
-        animation: pop 0.6s ease forwards;
-    }
-    @keyframes pop {
-        0% {transform: scale(0.2); opacity: 0;}
-        100% {transform: scale(1); opacity: 1;}
-    }
+  body {
+    background: #ffe6e6;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    padding: 50px;
+    overflow: hidden; /* For confetti */
+  }
+  h1 { font-size: 3em; color: #d60000; }
+  p { font-size: 1.2em; }
+  #heart {
+    width: 200px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  #heart:hover { transform: scale(1.2); }
+  #heart.beat {
+    animation: beat 0.5s infinite alternate;
+  }
+  @keyframes beat {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.3); }
+  }
+  #message {
+    margin-top: 30px;
+    font-size: 1.5em;
+    color: #800000;
+    transition: all 0.3s;
+  }
+  #message.glow {
+    text-shadow: 0 0 10px gold, 0 0 20px gold;
+    color: #ff4500;
+  }
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: gold;
+    animation: fall 3s linear forwards;
+  }
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(600px) rotate(720deg); opacity: 0; }
+  }
 </style>
 </head>
 <body>
-    <h1>Ууркаа ❤️</h1>
-    <div id="message">Миний зүрхийг бариарай 🥺💗</div>
-    <img id="heart" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Heart_icon_red.svg/1024px-Heart_icon_red.svg.png">
-    <div id="forgive">Хөөх! Миний зүрхийг барьчихлаа! 💞<br>Уучлаарай Ууркаа, би чамд хайртай!<br><br>- Түмс Давгаа ❤️</div>
+
+<h1>Hold My Heart ❤️</h1>
+<p>Uurka, click the heart to see my apology!</p>
+<img id="heart" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Heart">
+<div id="message"></div>
 
 <script>
-    const heart = document.getElementById('heart');
-    const forgive = document.getElementById('forgive');
+  const heart = document.getElementById('heart');
+  const message = document.getElementById('message');
+  const messages = [
+    "Nmg junduuuu uuujlaaaraiiiiii iiiii iiiii:<",
+    "Bi odooons aimr mundgeeeenaaaa amljeeeenananana",
+    "jiii mniiiiiiiiiiiii 100% 1000% 10000% typeeee muuuuuuunnnnnnn",
+    "Dahiad iim num boguee uuujlaaarai ;((",
+    "Junduuu ih duetaiishuu <3"
+  ];
 
-    // Move heart randomly on screen
-    function moveHeart() {
-        heart.style.left = Math.random() * (window.innerWidth - 60) + 'px';
-        heart.style.top = Math.random() * (window.innerHeight - 60) + 'px';
+  let clicks = 0;
+
+  function createConfetti() {
+    for(let i = 0; i < 30; i++) {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      confetti.style.left = Math.random() * window.innerWidth + 'px';
+      confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+      confetti.style.animationDuration = 2 + Math.random()*2 + 's';
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 3000);
     }
+  }
 
-    // Click event
-    heart.addEventListener('click', () => {
-        heart.style.display = "none";
-        forgive.style.display = "block";
-        confetti();
-    });
+  heart.addEventListener('click', () => {
+    clicks++;
+    if (clicks <= messages.length) {
+      message.textContent = messages[clicks-1];
 
-    // Move heart every 1.2 seconds (easy to click)
-    setInterval(moveHeart, 1200);
-    moveHeart();
+      // Special effect for the 3rd message
+      if (clicks === 3) {
+        heart.classList.add('beat');
+        message.classList.add('glow');
+        createConfetti();
+      } else {
+        heart.classList.remove('beat');
+        message.classList.remove('glow');
+      }
 
-    // Confetti effect
-    function confetti() {
-        for(let i=0; i<100; i++){
-            let conf = document.createElement("div");
-            conf.style.position = "fixed";
-            conf.style.width = "6px";
-            conf.style.height = "6px";
-            conf.style.background = "#" + Math.floor(Math.random()*16777215).toString(16);
-            conf.style.top = (Math.random()*100)+"%";
-            conf.style.left = (Math.random()*100)+"%";
-            conf.style.opacity = Math.random();
-            conf.style.animation = "fall 2.8s linear forwards";
-            document.body.appendChild(conf);
-        }
+    } else {
+      message.textContent = "I truly apologize, Uurka! 🥰";
+      heart.classList.remove('beat');
+      message.classList.remove('glow');
     }
+  });
 </script>
 
 </body>
